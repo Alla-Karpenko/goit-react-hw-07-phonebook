@@ -19,9 +19,6 @@ class App extends Component {
     }
 
     render() {
-        const { contacts } = this.state;
-       
-
         return (
             <div className='Phonebook'>
                 <h1 className='Phonebook-title'>Phonebook</h1>
