@@ -26,6 +26,4 @@ const store = configureStore({
   middleware,
 });
 
-// const persistor = persistStore(store);
-
 export default store;

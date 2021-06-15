@@ -1,7 +1,6 @@
-import React from 'react';
 import './ContactList.scss';
 import { connect } from 'react-redux';
-import * as contactActions from '../../redux/contact/contact-actions'
+import { contactOperations, contactsSelectors } from "../../redux/contact";
 
 const ContactItem = ({ id, name, number , onRemove }) => {
     return (
@@ -14,13 +13,13 @@ const ContactItem = ({ id, name, number , onRemove }) => {
 const ContactList = ({ contacts, onRemoveContact }) => {
     return (
         <ul>
-            {contacts.map( contact => (
-                <ContactItem 
-                key={contact.id}
-                id={contact.id}
-                name={contact.name}
-                number={contact.number}
-                onRemove={onRemoveContact}
+            {contacts.map(contact => (
+                <ContactItem
+                    key={contact.id}
+                    id={contact.id}
+                    name={contact.name}
+                    number={contact.number}
+                    onRemove={onRemoveContact}
                 />
             ))}
         </ul>
@@ -28,20 +27,12 @@ const ContactList = ({ contacts, onRemoveContact }) => {
     )
 };
 
-const getvisibleContacts = (allContacts, filter) => {
-    const normalizedFilter =  filter.toLowerCase();
-
-    return allContacts.filter( contact =>
-        contact.name.toLowerCase().includes(normalizedFilter)
-    );
-};
-
-const mapStateToProps = ({contacts: { items, filter }}) => ({
-    contacts: getvisibleContacts(items, filter),
+const mapStateToProps = (state) => ({
+    contacts: contactsSelectors.getvisibleContacts(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-    onRemoveContact: id => dispatch(contactActions.deleteContact(id)),
+const mapDispatchToProps = (dispatch) => ({
+  onRemoveContact: (id) => dispatch(contactOperations.deleteContact(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
